@@ -1,58 +1,48 @@
-class GildedRose
+# frozen_string_literal: true
 
+# Class GuildedRose to update_quality
+class GildedRose
   def initialize(items)
     @items = items
   end
 
-  def update_quality()
+  def update_quality
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
-      else
-        if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
+      name = item.name
+      quality = item.quality
+      sell_in = item.sell_in
+      max_quality = 50
+      if (name != 'Aged Brie') && (name != 'Backstage passes to a TAFKAL80ETC concert')
+        quality -= 1 if quality.positive? && (name != 'Sulfuras, Hand of Ragnaros')
+        
+      elsif quality < max_quality
+        quality += 1
+        if name == 'Backstage passes to a TAFKAL80ETC concert'
+          quality += 1 if sell_in < 11 && (quality < max_quality)
+          quality += 1 if sell_in < 6 && (quality < max_quality)
         end
       end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
+
+      sell_in -= 1 if name != 'Sulfuras, Hand of Ragnaros'
+
+      if sell_in.negative?
+        if name != 'Aged Brie'
+          if name != 'Backstage passes to a TAFKAL80ETC concert'
+            quality -= 1 if quality.positive? && (name != 'Sulfuras, Hand of Ragnaros')
           else
-            item.quality = item.quality - item.quality
+            quality -= quality
           end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
+        elsif quality < max_quality
+          quality += 1
         end
       end
+      item.quality = quality
+      item.sell_in = sell_in
     end
   end
 end
 
+# Class Item to initialize
 class Item
   attr_accessor :name, :sell_in, :quality
 
@@ -62,7 +52,7 @@ class Item
     @quality = quality
   end
 
-  def to_s()
+  def to_s
     "#{@name}, #{@sell_in}, #{@quality}"
   end
 end

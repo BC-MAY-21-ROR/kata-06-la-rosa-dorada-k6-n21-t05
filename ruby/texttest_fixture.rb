@@ -1,5 +1,4 @@
 #!/usr/bin/ruby -w
-
 require File.join(File.dirname(__FILE__), 'guilded_rose')
 
 puts "OMGHAI!"
