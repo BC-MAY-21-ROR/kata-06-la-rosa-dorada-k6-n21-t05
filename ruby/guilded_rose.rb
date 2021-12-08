@@ -20,10 +20,10 @@ class GildedRose
       # call sell_in_rules
       sell_in -= 1
       if sell_in.negative?
-        sell_in = sell_in_rules(name, quality, sell_in)
-      else
-        item.quality = quality
+        quality = sell_in_rules(name, quality, sell_in)
       end
+      item.quality = quality
+
       item.sell_in = sell_in
     end
   end
@@ -52,6 +52,7 @@ class GildedRose
     elsif quality < @max_quality
       quality += 1
     end
+    quality
   end
 end
 
