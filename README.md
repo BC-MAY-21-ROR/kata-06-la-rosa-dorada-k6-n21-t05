@@ -73,6 +73,7 @@ legendary item and as such its Quality is 80 and it never alters.
 - Línea de comando
 
 ## Entregable
+<img src ="/badges/rubycritic_badge_score.svg">
 - Código fuente en Github
 
 ## Enlaces
